@@ -3,6 +3,7 @@ package com.ayduh.warehouse.controller;
 import com.ayduh.warehouse.entity.Items;
 import com.ayduh.warehouse.repository.InMemoryItemsRepository;
 import com.ayduh.warehouse.repository.ItemsRepository;
+import com.ayduh.warehouse.repository.PostgresItemsRepository;
 import com.ayduh.warehouse.service.InventoryService;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class ConsoleController {
     private final Scanner scanner;
 
     public ConsoleController() {
-        ItemsRepository repo = new InMemoryItemsRepository();
+        ItemsRepository repo = new PostgresItemsRepository();
         this.inventoryService = new InventoryService(repo);
         this.scanner = new Scanner(System.in);
     }
