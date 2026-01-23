@@ -5,6 +5,9 @@ import com.ayduh.warehouse.entity.Items;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +68,19 @@ public class PostgresItemsRepository implements ItemsRepository {
 
         return items;
     }
-    public void updateQuantity(int id, int newQuantity){
+    @Override
+    public void updateQuantity(int id, int newQuantity) {
+        String sql = "UPDATE items SET quantity = ? WHERE id = ?";
 
+        try (
+                Connection conn = DatabaseConfig.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setInt(1, newQuantity);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
