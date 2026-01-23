@@ -13,7 +13,7 @@ Entity: Item:
 
 HOW TO START:
 1) To start the program go to src\main\java\com\ayduh\warehouse\Main.java
-2) 1. Open pgAdmin
-2. Execute init.sql as superuser (postgres)
-3. Connect to Warehouse_DB as user `postgres`
-4. Execute schema.sql
+2) Open pgAdmin
+3) Execute init.sql as superuser (postgres)
+4) Connect to Warehouse_DB as user `postgres`
+5) Execute schema.sql
