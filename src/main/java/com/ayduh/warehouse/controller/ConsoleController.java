@@ -3,7 +3,7 @@ package com.ayduh.warehouse.controller;
 import com.ayduh.warehouse.entity.Items;
 import com.ayduh.warehouse.repository.InMemoryItemsRepository;
 import com.ayduh.warehouse.repository.ItemsRepository;
-import com.ayduh.warehouse.repository.PostgresItemsRepository;
+import com.ayduh.warehouse.repository.InMemoryItemsRepository;
 import com.ayduh.warehouse.service.InventoryService;
 
 import java.util.List;
@@ -12,39 +12,51 @@ import java.util.Scanner;
 public class ConsoleController {
 
     private final InventoryService inventoryService;
-    private final Scanner scanner;
+    private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleController() {
-        ItemsRepository repo = new PostgresItemsRepository();
+        ItemsRepository repo = new InMemoryItemsRepository();
         this.inventoryService = new InventoryService(repo);
-        this.scanner = new Scanner(System.in);
     }
 
     public void start() {
         while (true) {
             printMenu();
-            String choice = scanner.nextLine().trim();
+            int choice;
+            while (true) {
+                try {
+                    choice = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("Please enter a number.");
+                    scanner.nextLine();
+                }
+            }
 
-            if ("0".equals(choice)) {
+
+            if (choice == 0) {
                 System.out.println("Bye!");
                 break;
             }
 
-            try {
-                if ("1".equals(choice)) {
-                    listItems();
-                } else if ("2".equals(choice)) {
-                    receiveItem();
-                } else if ("3".equals(choice)) {
-                    issueItem();
-                } else if ("4".equals(choice)) {
-                    showOneItem();
-                } else {
-                    System.out.println("Unknown option. Try again.");
+            else {
+                try {
+                    switch (choice) {
+                        case 1 -> listItems();
+                        case 2 -> receiveItem();
+                        case 3 -> issueItem();
+                        case 4 -> showOneItem();
+                        default -> System.out.println("Unknown option. Try again.");
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("ERROR: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                System.out.println("ERROR: " + e.getMessage());
+                catch (IllegalStateException e) {
+                    System.out.println("ERROR: " + e.getMessage());
+                }
             }
+
         }
     }
 
