@@ -10,17 +10,28 @@ import java.util.Optional;
 
 public class InMemoryItemsRepository implements ItemsRepository {
 
+    private static final InMemoryItemsRepository INSTANCE = new InMemoryItemsRepository();
+
+    public static InMemoryItemsRepository getInstance() {
+        return INSTANCE;
+    }
+
     private final Map<Integer, Items> storage = new HashMap<>();
 
-    public InMemoryItemsRepository() {
-        storage.put(1, new Items(1, "Hammer", "Steel hammer", 10, 3, "Tools"));
-        storage.put(2, new Items(2, "Screws pack", "100 pcs", 50, 20, "Tools"));
-        storage.put(3, new Items(3, "Paper A4", "500 sheets", 5, 10, "Office"));
+    private InMemoryItemsRepository() {
+        storage.put(1, new Items(1, "Hammer", "Steel hammer", 10, 3, 1, "Tools"));
+        storage.put(2, new Items(2, "Screws pack", "100 pcs", 50, 20, 1, "Tools"));
+        storage.put(3, new Items(3, "Paper A4", "500 sheets", 5, 10, 2, "Office"));
     }
 
     @Override
     public Optional<Items> findById(int id) {
         return Optional.ofNullable(storage.get(id));
+    }
+
+    @Override
+    public Optional<Items> findByIdWithCategory(int id) {
+        return findById(id);
     }
 
     @Override
@@ -36,4 +47,3 @@ public class InMemoryItemsRepository implements ItemsRepository {
         }
     }
 }
-

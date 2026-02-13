@@ -13,10 +13,20 @@ import java.util.Optional;
 
 public class PostgresItemsRepository implements ItemsRepository {
 
+    private static final PostgresItemsRepository INSTANCE = new PostgresItemsRepository();
+
+    private PostgresItemsRepository() {}
+
+    public static PostgresItemsRepository getInstance() {
+        return INSTANCE;
+    }
+
     // Реализовал метод поиска по id2
     @Override
     public Optional<Items> findById(int id) {
-        String sql = "SELECT * FROM items WHERE id = ?";
+        String sql = "SELECT i.id, i.name, i.description, i.quantity, i.min_quantity, " +
+                "i.category_id, c.name AS category_name " +
+                "FROM items i JOIN categories c ON i.category_id = c.id WHERE i.id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -30,7 +40,8 @@ public class PostgresItemsRepository implements ItemsRepository {
                         rs.getString("description"),
                         rs.getInt("quantity"),
                         rs.getInt("min_quantity"),
-                        rs.getString("category")
+                        rs.getInt("category_id"),
+                        rs.getString("category_name")
                 );
                 return Optional.of(item);
             }
@@ -41,11 +52,18 @@ public class PostgresItemsRepository implements ItemsRepository {
         }
     }
 
+    @Override
+    public Optional<Items> findByIdWithCategory(int id) {
+        return findById(id);
+    }
+
     // Чтение товаров (всех_
     @Override
     public List<Items> findAll() {
         List<Items> items = new ArrayList<>();
-        String sql = "SELECT * FROM items";
+        String sql = "SELECT i.id, i.name, i.description, i.quantity, i.min_quantity, " +
+                "i.category_id, c.name AS category_name " +
+                "FROM items i JOIN categories c ON i.category_id = c.id";
 
         try (Connection conn = DatabaseConfig.getConnection();
              Statement st = conn.createStatement();
@@ -58,7 +76,8 @@ public class PostgresItemsRepository implements ItemsRepository {
                         rs.getString("description"),
                         rs.getInt("quantity"),
                         rs.getInt("min_quantity"),
-                        rs.getString("category")
+                        rs.getInt("category_id"),
+                        rs.getString("category_name")
                 ));
             }
 

@@ -6,18 +6,20 @@ public class Items {
     private String description;
     private int quantity;
     private int min_quantity;
-    private String category;
+    private int categoryId;
+    private String categoryName;
 
     public Items(){}
 
     public Items(int id, String name, String description, int quantity,
-                int min_quantity, String category) {
+                int min_quantity, int categoryId, String categoryName) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.min_quantity = min_quantity;
-        this.category = category;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
     public int getId() {return id;}
@@ -35,6 +37,9 @@ public class Items {
     public int getMin_quantity() {return min_quantity;}
     public void setMin_quantity(int min_quantity) {this.min_quantity = min_quantity;}
 
-    public String getCategory() {return category;}
-    public void setCategory(String category) {this.category = category;}
+    public int getCategoryId() {return categoryId;}
+    public void setCategoryId(int categoryId) {this.categoryId = categoryId;}
+
+    public String getCategory() {return categoryName;}
+    public void setCategory(String categoryName) {this.categoryName = categoryName;}
 }
