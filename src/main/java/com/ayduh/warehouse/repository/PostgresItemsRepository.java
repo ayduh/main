@@ -13,6 +13,14 @@ import java.util.Optional;
 
 public class PostgresItemsRepository implements ItemsRepository {
 
+    private static final PostgresItemsRepository INSTANCE = new PostgresItemsRepository();
+
+    private PostgresItemsRepository() {}
+
+    public static PostgresItemsRepository getInstance() {
+        return INSTANCE;
+    }
+
     // Реализовал метод поиска по id2
     @Override
     public Optional<Items> findById(int id) {
@@ -42,6 +50,11 @@ public class PostgresItemsRepository implements ItemsRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Optional<Items> findByIdWithCategory(int id) {
+        return findById(id);
     }
 
     // Чтение товаров (всех_

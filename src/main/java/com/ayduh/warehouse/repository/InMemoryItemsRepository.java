@@ -10,6 +10,12 @@ import java.util.Optional;
 
 public class InMemoryItemsRepository implements ItemsRepository {
 
+    private static final InMemoryItemsRepository INSTANCE = new InMemoryItemsRepository();
+
+    public static InMemoryItemsRepository getInstance() {
+        return INSTANCE;
+    }
+
     private final Map<Integer, Items> storage = new HashMap<>();
 
     public InMemoryItemsRepository() {
@@ -21,6 +27,11 @@ public class InMemoryItemsRepository implements ItemsRepository {
     @Override
     public Optional<Items> findById(int id) {
         return Optional.ofNullable(storage.get(id));
+    }
+
+    @Override
+    public Optional<Items> findByIdWithCategory(int id) {
+        return findById(id);
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.ayduh.warehouse.controller;
 
 import com.ayduh.warehouse.entity.Items;
-import com.ayduh.warehouse.repository.InMemoryItemsRepository;
-import com.ayduh.warehouse.repository.ItemsRepository;
-import com.ayduh.warehouse.repository.InMemoryItemsRepository;
+import com.ayduh.warehouse.repository.ItemRepository;
+import com.ayduh.warehouse.repository.RepositoryFactory;
 import com.ayduh.warehouse.service.InventoryService;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class ConsoleController {
     private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleController() {
-        ItemsRepository repo = new InMemoryItemsRepository();
+        ItemRepository repo = RepositoryFactory.createItemRepository(false);
         this.inventoryService = new InventoryService(repo);
     }
 

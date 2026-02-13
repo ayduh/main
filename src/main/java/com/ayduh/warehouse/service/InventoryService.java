@@ -1,15 +1,15 @@
 package com.ayduh.warehouse.service;
 
 import com.ayduh.warehouse.entity.Items;
-import com.ayduh.warehouse.repository.ItemsRepository;
+import com.ayduh.warehouse.repository.ItemRepository;
 
 import java.util.List;
 
 public class InventoryService {
 
-    private final ItemsRepository itemsRepository;
+    private final ItemRepository itemsRepository;
 
-    public InventoryService(ItemsRepository itemsRepository) {
+    public InventoryService(ItemRepository itemsRepository) {
         this.itemsRepository = itemsRepository;
     }
 
